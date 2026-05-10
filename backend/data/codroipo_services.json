@@ -1,0 +1,92 @@
+[
+  {
+    "id": "anagrafe-01",
+    "category": "Anagrafe",
+    "title": "Carta d'Identità Elettronica (CIE)",
+    "content": "La Carta d'Identità Elettronica (CIE) si richiede presso l'Ufficio Anagrafe del Comune di Codroipo, in Piazza Libertà 28. È necessario presentarsi con: una fototessera recente su sfondo bianco, la vecchia carta d'identità o denuncia di smarrimento/furto, codice fiscale. Il costo è di 22,20 euro. Il documento viene spedito dal Ministero dell'Interno all'indirizzo indicato entro 6 giorni lavorativi. L'ufficio Anagrafe è aperto dal lunedì al venerdì dalle 9:00 alle 12:30, e il martedì e giovedì anche dalle 14:30 alle 17:00. È consigliata la prenotazione."
+  },
+  {
+    "id": "anagrafe-02",
+    "category": "Anagrafe",
+    "title": "Passaporto",
+    "content": "La richiesta di passaporto si effettua tramite l'Ufficio Anagrafe del Comune di Codroipo oppure direttamente alla Questura di Udine. Per il Comune: occorre la marca da bollo da 73,50 euro, una fototessera recente, documento d'identità, codice fiscale e il versamento di 42,50 euro su conto corrente postale n. 67422808. Il passaporto ha validità 10 anni per gli adulti. Per i minori è richiesto il consenso di entrambi i genitori."
+  },
+  {
+    "id": "anagrafe-03",
+    "category": "Anagrafe",
+    "title": "Residenza e cambio di indirizzo",
+    "content": "Per richiedere la residenza nel Comune di Codroipo o comunicare un cambio di indirizzo è necessario compilare il modulo di dichiarazione anagrafica disponibile sul sito del Comune o presso gli uffici. La dichiarazione può essere presentata allo sportello, tramite raccomandata A/R, per email certificata (PEC) o tramite il portale ANPR. Dopo la dichiarazione, gli agenti comunali effettuano un sopralluogo entro 45 giorni per verificare la residenza effettiva. Telefono Anagrafe: 0432 824111."
+  },
+  {
+    "id": "anagrafe-04",
+    "category": "Anagrafe",
+    "title": "Certificati anagrafici",
+    "content": "Il Comune di Codroipo rilascia certificati di: residenza, stato di famiglia, nascita, matrimonio, morte, cittadinanza, stato libero, esistenza in vita. I certificati possono essere richiesti allo sportello, online tramite il portale ANPR (anpr.interno.it) senza costi, oppure tramite accesso ai servizi online del Comune. I certificati rilasciati allo sportello hanno un costo di 0,26 euro per i diritti di segreteria più eventuale marca da bollo da 16 euro per gli usi non esenti. Orari: lunedì-venerdì 9:00-12:30."
+  },
+  {
+    "id": "tributi-01",
+    "category": "Tributi",
+    "title": "IMU - Imposta Municipale Propria",
+    "content": "L'IMU (Imposta Municipale Propria) è dovuta dai proprietari di immobili nel Comune di Codroipo. L'abitazione principale (prima casa) è esente, salvo le abitazioni di lusso (A/1, A/8, A/9). Il pagamento avviene in due rate: acconto entro il 16 giugno, saldo entro il 16 dicembre. Il pagamento si effettua tramite modello F24 presso banche, uffici postali o online. Per informazioni sulle aliquote vigenti e calcolo dell'imposta, contattare l'Ufficio Tributi: tributi@comune.codroipo.ud.it oppure 0432 824111."
+  },
+  {
+    "id": "tributi-02",
+    "category": "Tributi",
+    "title": "TARI - Tassa sui Rifiuti",
+    "content": "La TARI è la tassa per il servizio di raccolta e smaltimento dei rifiuti solidi urbani. Deve essere pagata da chiunque possieda o detenga locali o aree aperte a qualsiasi uso nel territorio del Comune di Codroipo. Le tariffe variano in base alla superficie dell'immobile e alla composizione del nucleo familiare. Il pagamento avviene tramite bollettini inviati dal Comune. Per comunicare variazioni (nuova utenza, cessazione, variazione componenti familiari) rivolgersi all'Ufficio Tributi. Per problemi con la raccolta differenziata: Servizi Ambientali FVG."
+  },
+  {
+    "id": "edilizia-01",
+    "category": "Edilizia e Urbanistica",
+    "title": "SCIA - Segnalazione Certificata di Inizio Attività",
+    "content": "La SCIA (Segnalazione Certificata di Inizio Attività) è necessaria per interventi edilizi di manutenzione straordinaria, restauro, risanamento conservativo e ristrutturazione edilizia leggera. Può essere presentata allo Sportello Unico per l'Edilizia (SUE) del Comune di Codroipo. I lavori possono iniziare contestualmente alla presentazione. Documentazione richiesta: relazione tecnica, elaborati grafici, titolo di proprietà, dichiarazione del direttore dei lavori. Per informazioni: sue@comune.codroipo.ud.it."
+  },
+  {
+    "id": "edilizia-02",
+    "category": "Edilizia e Urbanistica",
+    "title": "Permesso di Costruire",
+    "content": "Il Permesso di Costruire è richiesto per nuove costruzioni, ampliamenti superiori al 20% del volume esistente, ristrutturazioni pesanti e cambi di destinazione d'uso rilevanti. La domanda va presentata allo Sportello Unico per l'Edilizia (SUE). I termini istruttori sono di 60 giorni (prorogabili). Il contributo di costruzione è calcolato in base al tipo di intervento. Per appuntamenti con il tecnico: 0432 824111."
+  },
+  {
+    "id": "servizi-sociali-01",
+    "category": "Servizi Sociali",
+    "title": "Assistenza domiciliare anziani",
+    "content": "Il Comune di Codroipo, tramite l'Ambito Distrettuale del Medio Friuli, offre servizi di assistenza domiciliare (SAD) per anziani non autosufficienti o in condizione di fragilità. Il servizio comprende aiuto nella cura della persona, nelle attività domestiche e nella gestione quotidiana. Per accedere è necessario rivolgersi all'Assistente Sociale del Comune. Contatto Servizi Sociali: assistentesociale@comune.codroipo.ud.it — 0432 824111 int. 3."
+  },
+  {
+    "id": "servizi-sociali-02",
+    "category": "Servizi Sociali",
+    "title": "Bonus e contributi sociali",
+    "content": "Il Comune di Codroipo eroga diversi contributi a favore di famiglie in difficoltà economica: contributi per affitti, per utenze domestiche (bonus gas/luce), assegni al nucleo familiare numeroso, assegno di maternità. La maggior parte delle domande richiede la presentazione dell'ISEE (Indicatore della Situazione Economica Equivalente). Per informazioni e presentazione domande: Ufficio Servizi Sociali, Piazza Libertà 28, lunedì-venerdì 9:00-12:30."
+  },
+  {
+    "id": "uffici-01",
+    "category": "Informazioni generali",
+    "title": "Orari e contatti del Comune di Codroipo",
+    "content": "Il Comune di Codroipo si trova in Piazza Libertà 28, 33033 Codroipo (UD). Telefono: 0432 824111. Email: protocollo@comune.codroipo.ud.it. PEC: comune.codroipo@certgov.fvg.it. Sito web: www.comune.codroipo.ud.it. Orari di apertura al pubblico: lunedì, mercoledì, venerdì dalle 9:00 alle 12:30; martedì e giovedì dalle 9:00 alle 12:30 e dalle 14:30 alle 17:00. Gli uffici sono chiusi il sabato e la domenica e nei giorni festivi."
+  },
+  {
+    "id": "uffici-02",
+    "category": "Informazioni generali",
+    "title": "Come prenotare un appuntamento",
+    "content": "È possibile prenotare un appuntamento con gli uffici comunali di Codroipo tramite questo assistente vocale, indicando: il servizio desiderato (Anagrafe, Tributi, Edilizia, Servizi Sociali), la data e l'ora preferita, nome e cognome. Gli uffici ricevono su appuntamento dal lunedì al venerdì nelle fasce orarie: mattina 9:00-12:30, pomeriggio (martedì e giovedì) 14:30-17:00. Per urgenze è possibile presentarsi direttamente allo sportello."
+  },
+  {
+    "id": "uffici-03",
+    "category": "Informazioni generali",
+    "title": "Sportello Digitale e Servizi Online",
+    "content": "Il Comune di Codroipo offre diversi servizi digitali accessibili tramite il portale www.comune.codroipo.ud.it: presentazione pratiche online, consultazione dello stato delle pratiche, pagamenti PagoPA per tributi e servizi, autocertificazioni, accesso ai certificati anagrafici tramite ANPR. Per accedere ai servizi online è necessario il sistema SPID (Sistema Pubblico di Identità Digitale) o la CIE (Carta d'Identità Elettronica). Per assistenza tecnica: urp@comune.codroipo.ud.it."
+  },
+  {
+    "id": "scuola-01",
+    "category": "Istruzione",
+    "title": "Iscrizione scuola materna e nido",
+    "content": "Le iscrizioni per l'asilo nido e la scuola dell'infanzia comunale di Codroipo si effettuano solitamente nel mese di febbraio per l'anno scolastico successivo. La domanda può essere presentata online tramite il portale del Ministero dell'Istruzione o allo sportello comunale. Per informazioni sulle liste d'attesa, rette e agevolazioni ISEE: Ufficio Pubblica Istruzione, 0432 824111."
+  },
+  {
+    "id": "ambiente-01",
+    "category": "Ambiente e Territorio",
+    "title": "Raccolta differenziata a Codroipo",
+    "content": "Il servizio di raccolta differenziata a Codroipo è gestito da Net S.p.A. I rifiuti vengono raccolti porta a porta secondo un calendario settimanale: carta e cartone il lunedì, multimateriale (plastica e metalli) il mercoledì, organico il martedì e venerdì, indifferenziato il giovedì. Il Centro di Raccolta (ecocentro) si trova in Via Trieste ed è aperto il martedì, giovedì e sabato dalle 8:30 alle 12:30. Per il calendario aggiornato: app Net o www.netriceve.it."
+  }
+]

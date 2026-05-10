@@ -1,0 +1,70 @@
+version: '3.9'
+
+services:
+
+  # ── PostgreSQL database ──────────────────────────────────────────────────────
+  db:
+    image: postgres:16-alpine
+    container_name: voicebot-db
+    environment:
+      POSTGRES_DB: voicebot
+      POSTGRES_USER: voicebot
+      POSTGRES_PASSWORD: voicebot123
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U voicebot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Backend API ──────────────────────────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: voicebot-backend
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./backend/.env
+    environment:
+      PORT: 3000
+      DATABASE_URL: postgres://voicebot:voicebot123@db:5432/voicebot
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # ── Frontend dashboard ───────────────────────────────────────────────────────
+  frontend:
+    image: nginx:alpine
+    container_name: voicebot-frontend
+    ports:
+      - "8080:80"
+    volumes:
+      - ./frontend/public:/usr/share/nginx/html:ro
+    restart: unless-stopped
+    depends_on:
+      - backend
+
+  # ngrok:
+  #   image: ngrok/ngrok:latest
+  #   container_name: voicebot-ngrok
+  #   command: http backend:3000 --log stdout
+  #   environment:
+  #     NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN}
+  #   ports:
+  #     - "4040:4040"
+  #   depends_on:
+  #     - backend
+
+volumes:
+  pg-data:
+    driver: local

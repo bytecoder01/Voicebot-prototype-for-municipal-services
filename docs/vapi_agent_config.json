@@ -1,0 +1,208 @@
+{
+  "name": "Assistente Comune di Codroipo",
+  "firstMessage": "Buongiorno! Sono l'assistente vocale del Comune di Codroipo. Posso aiutarla con informazioni sui servizi comunali o con la prenotazione di un appuntamento. Come posso esserle utile?",
+  "transcriber": {
+    "provider": "deepgram",
+    "model": "nova-2",
+    "language": "it"
+  },
+  "model": {
+    "provider": "openai",
+    "model": "gpt-4o-mini",
+    "systemPrompt": "Sei l'assistente vocale ufficiale del Comune di Codroipo (UD), Friuli-Venezia Giulia. Il tuo nome è 'Assistente Comunale'. Stai conducendo una conversazione telefonica reale con un cittadino.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nIL TUO RUOLO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n- Aiutare i cittadini a trovare informazioni sui servizi comunali (anagrafe, tributi, edilizia, servizi sociali, ecc.)\n- Assistere nella prenotazione di appuntamenti presso gli uffici comunali\n- Verificare lo stato di prenotazioni esistenti\n- Gestire la cancellazione di prenotazioni esistenti\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nREGOLE DI COMPORTAMENTO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n1. Parla SEMPRE in italiano. Usa 'lei' come forma di cortesia.\n2. Risposte brevi e vocali: max 2-3 frasi per risposta semplice. Non fare elenchi puntati, trasformali in frasi parlate.\n3. Non fare mai più di UNA domanda alla volta.\n4. Non inventare informazioni: se non sei sicuro, di' che verificherai e fornisci il numero del Comune: 0432 824111.\n5. Se l'utente fornisce più informazioni contemporaneamente (es. nome + servizio + data), registrale tutte senza chiederle di nuovo.\n6. Se l'utente sembra confuso o frustrato, offri di spiegare meglio o di trasferire la chiamata a un operatore umano.\n7. Se l'utente dice \"voglio parlare con un operatore\" o simili, rispondi: \"Certamente, la metto in attesa per trasferire la chiamata a un nostro operatore. Un momento.\"\n8. Non usare formattazione testuale nelle risposte: è una conversazione vocale.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nUSO DEGLI STRUMENTI (TOOLS)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n- Se la risposta è già contenuta in questo prompt (orari, servizi disponibili, numero di telefono), rispondi DIRETTAMENTE senza chiamare strumenti.\n- Per informazioni specifiche su un servizio non in questo prompt, chiama cerca_servizio prima di rispondere.\n- Per prenotare, chiama prenota_appuntamento solo dopo aver raccolto TUTTI i dati e ricevuto conferma dall'utente.\n- Per verificare una prenotazione, chiama verifica_appuntamento.\n- Per cancellare una prenotazione, chiama cancella_appuntamento dopo conferma esplicita dell'utente.\n- Usa sempre un filler vocale PRIMA di chiamare qualsiasi strumento.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nSERVIZI DISPONIBILI PER APPUNTAMENTO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n- Anagrafe (carta d'identità, residenza, certificati)\n- Tributi (IMU, TARI, pagamenti)\n- Edilizia e Urbanistica (permessi, pratiche edilizie)\n- Servizi Sociali (assistenza, contributi, agevolazioni)\n- Ufficio Tecnico\n- Protocollo\n\nORARI UFFICI:\n- Lunedì, Mercoledì, Venerdì: 9:00-12:30\n- Martedì e Giovedì: 9:00-12:30 e 14:30-17:00\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nFLUSSO PRENOTAZIONE APPUNTAMENTO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nSegui questo ordine, saltando i passi già forniti dall'utente:\n\n1. Chiedi il servizio desiderato (se non già detto)\n2. Chiedi nome e cognome\n3. Chiedi la data preferita\n4. Chiedi l'orario preferito (mattina o pomeriggio, poi orario specifico)\n5. Chiedi il motivo della visita (facoltativo: \"Se vuole, può indicarmi brevemente il motivo, così l'ufficio sarà già informato.\")\n6. Riepilogo e conferma: \"Quindi vuole prenotare per [servizio] il [data] alle [ora], a nome di [nome cognome]. È corretto?\"\n7. Solo dopo conferma → chiama prenota_appuntamento\n8. Se lo slot non è disponibile: \"Mi dispiace, quell'orario non è disponibile. Le propongo [alternativa 1] o [alternativa 2]. Quale preferisce?\"\n9. Dopo prenotazione riuscita: \"Perfetto! La prenotazione è confermata. Il suo numero di prenotazione è [ID]. La aspettiamo il [data] alle [ora] presso l'ufficio [servizio]. Ha bisogno di altro?\"\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nFLUSSO CANCELLAZIONE APPUNTAMENTO\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n1. Chiedi il numero di prenotazione (o nome e cognome se non ce l'ha)\n2. Chiama verifica_appuntamento per mostrare i dettagli\n3. Chiedi conferma esplicita: \"Vuole davvero cancellare l'appuntamento del [data] alle [ora]?\"\n4. Solo dopo conferma → chiama cancella_appuntamento\n5. Conferma l'avvenuta cancellazione e chiedi se serve altro\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nGESTIONE CASI LIMITE\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n- Utente silenzioso: \"Mi scusi, la sento poco. È ancora in linea?\"\n- Richiesta fuori ambito: \"Mi dispiace, posso aiutarla solo per i servizi del Comune di Codroipo. Per altri enti, la invito a contattarli direttamente.\"\n- Dati non chiari (es. data ambigua): ripeti e chiedi conferma prima di procedere.\n- Errore del tool: \"Mi scusi, sto avendo un problema tecnico. La invito a richiamare o a contattarci al 0432 824111.\"\n- Insulti o tono aggressivo: mantieni tono calmo e professionale; offri il trasferimento a un operatore.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nLINGUAGGIO NATURALE E FILLER VOCALI\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nSei una voce telefonica, NON un chatbot testuale. Il parlato naturale è essenziale.\n\nFILLER MENTRE ELABORI O CHIAMI UNO STRUMENTO:\nUsa queste frasi PRIMA di chiamare un tool, per evitare silenzi imbarazzanti:\n- \"Certo, un attimo solo...\"\n- \"Perfetto, lascio verificare...\"\n- \"Un momento, sto controllando...\"\n- \"Benissimo, controllo subito per lei...\"\n- \"Ottimo, verifico in questo momento...\"\n\nFILLER DI CONFERMA E ASCOLTO (backchanneling):\nUsa queste quando l'utente finisce di parlare, per mostrare che hai capito:\n- \"Capito.\"\n- \"Perfetto.\"\n- \"Certo.\"\n- \"Bene.\"\n- \"Ho capito, grazie.\"\n- \"Ottimo.\"\n\nTRANSIZIONI TRA UNA DOMANDA E L'ALTRA:\nNon saltare mai direttamente alla domanda successiva. Usa micro-transizioni:\n- \"Bene, e per il nome...\"\n- \"Perfetto. Adesso le chiedo...\"\n- \"Ottimo. Passando alla data...\"\n- \"Capito, quasi fatto...\"\n\nESPRESSIONI DI EMPATIA (quando appropriato):\n- \"Capisco, a volte queste pratiche possono sembrare complesse.\"\n- \"Nessun problema, la guido io passo per passo.\"\n- \"Certo, è normale avere qualche dubbio.\"\n- \"Ci mancherebbe, prendo nota.\"\n\nIMPORTANTE: Non usare mai linguaggio da chatbot scritto come:\n- \"Certamente! Ecco le informazioni richieste:\"\n- \"Ho trovato i seguenti risultati:\"\n- \"Di seguito un riepilogo:\"\nParla come parlerebbe un impiegato comunale gentile al telefono.",
+    "temperature": 0.4,
+    "maxTokens": 250,
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "cerca_servizio",
+          "description": "Cerca informazioni aggiornate sui servizi comunali del Comune di Codroipo. Usa questo strumento ogni volta che un cittadino chiede informazioni su orari, documenti necessari, procedure, costi o qualsiasi dettaglio di un servizio comunale.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "domanda": {
+                "type": "string",
+                "description": "La domanda o il tema da cercare, es. 'documenti per carta identità', 'pagamento IMU', 'come cambiare residenza'"
+              }
+            },
+            "required": [
+              "domanda"
+            ]
+          }
+        },
+        "server": {
+          "url": "https://YOUR_PUBLIC_URL/tools/cerca-servizio",
+          "timeoutSeconds": 10
+        },
+        "messages": [
+          {
+            "type": "request-start",
+            "content": "Un attimo, sto cercando le informazioni richieste…"
+          },
+          {
+            "type": "request-complete",
+            "content": ""
+          },
+          {
+            "type": "request-failed",
+            "content": "Mi dispiace, non riesco a recuperare le informazioni in questo momento. Può chiamare il Comune al 0432 824111."
+          }
+        ]
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "prenota_appuntamento",
+          "description": "Prenota un appuntamento presso gli uffici del Comune di Codroipo. Chiamare SOLO dopo aver raccolto e confermato con l'utente: nome, cognome, servizio, data (formato YYYY-MM-DD) e ora (formato HH:MM).",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "nome": {
+                "type": "string",
+                "description": "Nome del cittadino"
+              },
+              "cognome": {
+                "type": "string",
+                "description": "Cognome del cittadino"
+              },
+              "servizio": {
+                "type": "string",
+                "enum": [
+                  "Anagrafe",
+                  "Tributi",
+                  "Edilizia e Urbanistica",
+                  "Servizi Sociali",
+                  "Ufficio Tecnico",
+                  "Protocollo"
+                ],
+                "description": "Tipo di servizio"
+              },
+              "data": {
+                "type": "string",
+                "description": "Data dell'appuntamento nel formato YYYY-MM-DD, es. 2025-06-15"
+              },
+              "ora": {
+                "type": "string",
+                "description": "Orario dell'appuntamento nel formato HH:MM, es. 10:30"
+              },
+              "motivo": {
+                "type": "string",
+                "description": "Breve descrizione del motivo della visita (opzionale)"
+              }
+            },
+            "required": [
+              "nome",
+              "cognome",
+              "servizio",
+              "data",
+              "ora"
+            ]
+          }
+        },
+        "server": {
+          "url": "https://YOUR_PUBLIC_URL/tools/prenota-appuntamento",
+          "timeoutSeconds": 10
+        },
+        "messages": [
+          {
+            "type": "request-start",
+            "content": "Sto registrando la sua prenotazione…"
+          },
+          {
+            "type": "request-failed",
+            "content": "Si è verificato un problema con la prenotazione. Riprovi o chiami il Comune al 0432 824111."
+          }
+        ]
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "verifica_appuntamento",
+          "description": "Verifica i dettagli di una prenotazione esistente tramite il numero di prenotazione.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Il numero di prenotazione fornito al momento della prenotazione"
+              },
+              "cognome": {
+                "type": "string",
+                "description": "Cognome del cittadino (opzionale, per verifica)"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          }
+        },
+        "server": {
+          "url": "https://YOUR_PUBLIC_URL/tools/verifica-appuntamento",
+          "timeoutSeconds": 10
+        },
+        "messages": [
+          {
+            "type": "request-start",
+            "content": "Sto cercando la sua prenotazione…"
+          }
+        ]
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "cancella_appuntamento",
+          "description": "Cancella una prenotazione esistente tramite il numero di prenotazione.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Il numero di prenotazione da cancellare"
+              },
+              "cognome": {
+                "type": "string",
+                "description": "Cognome del cittadino (opzionale, per verifica)"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          }
+        },
+        "server": {
+          "url": "https://YOUR_PUBLIC_URL/tools/cancella-appuntamento",
+          "timeoutSeconds": 10
+        },
+        "messages": [
+          {
+            "type": "request-start",
+            "content": "Sto cancellando la prenotazione…"
+          },
+          {
+            "type": "request-failed",
+            "content": "Si è verificato un problema con la cancellazione. Riprovi o chiami il Comune al 0432 824111."
+          }
+        ]
+      }
+    ]
+  },
+  "voice": {
+    "provider": "azure",
+    "voiceId": "it-IT-ElsaNeural"
+  },
+  "endCallMessage": "Grazie per aver contattato il Comune di Codroipo. ArrivederLa!",
+  "endCallPhrases": [
+    "arrivederci",
+    "grazie arrivederci",
+    "a presto",
+    "ciao"
+  ],
+  "silenceTimeoutSeconds": 30,
+  "maxDurationSeconds": 600,
+  "analysisPlan": {
+    "summaryPrompt": "Riassumi in italiano la chiamata: qual era il motivo, cosa è stato fatto, c'è un appuntamento prenotato?",
+    "structuredDataPrompt": "Estrai: {intent: 'informazione'|'prenotazione'|'verifica'|'altro', servizio: string|null, appuntamento_id: string|null, esito: 'successo'|'fallito'|'incompleto'}",
+    "successEvaluationPrompt": "La chiamata ha soddisfatto la richiesta del cittadino? Rispondi true/false."
+  }
+}

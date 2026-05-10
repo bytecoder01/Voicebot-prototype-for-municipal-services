@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Comune di Codroipo — Voicebot Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #0d0f0b;
+  --surface:   #131610;
+  --surface2:  #191d15;
+  --border:    rgba(255,255,255,0.06);
+  --border2:   rgba(255,255,255,0.11);
+  --ink:       #e8e6e0;
+  --ink2:      #9a9890;
+  --muted:     #5a5e54;
+  --accent:    #a8c97a;
+  --accent2:   #c8e89a;
+  --accentdim: rgba(168,201,122,0.12);
+  --gold:      #d4a843;
+  --golddim:   rgba(212,168,67,0.12);
+  --danger:    #e07070;
+  --dangerdim: rgba(224,112,112,0.1);
+  --blue:      #7ab0d4;
+  --bluedim:   rgba(122,176,212,0.12);
+  --purple:    #a07ad4;
+  --purpledim: rgba(160,122,212,0.12);
+  --orange:    #d4935a;
+  --orangedim: rgba(212,147,90,0.12);
+  --teal:      #5ac4a8;
+  --tealdim:   rgba(90,196,168,0.12);
+  --mono:      'Inter', system-ui, sans-serif;
+  --serif:     'Inter', system-ui, sans-serif;
+  --radius:    14px;
+  --radius-sm: 8px;
+}
+
+html { color-scheme: dark; }
+body {
+  background: var(--bg);
+  font-family: var(--mono);
+  color: var(--ink);
+  min-height: 100vh;
+  line-height: 1.5;
+  /* subtle grain */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E");
+}
+
+/* ── LAYOUT ── */
+.shell { display: grid; grid-template-rows: auto 1fr; min-height: 100vh; }
+
+/* ── HEADER ── */
+.header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(13,15,11,0.85);
+  backdrop-filter: blur(20px) saturate(1.4);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 60px;
+}
+
+.header-left { display: flex; align-items: center; gap: 14px; }
+
+.logo {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: linear-gradient(135deg, #4a7c30, #a8c97a);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-size: 18px; font-weight: 600;
+  color: #0d0f0b; flex-shrink: 0;
+  box-shadow: 0 0 0 1px rgba(168,201,122,0.3), 0 4px 16px rgba(168,201,122,0.15);
+}
+
+.header-wordmark { display: flex; flex-direction: column; gap: 1px; }
+.header-title {
+  font-family: var(--serif); font-size: 15px; font-weight: 600;
+  color: var(--ink); letter-spacing: -0.01em;
+}
+.header-sub { font-size: 10px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+
+.header-right { display: flex; align-items: center; gap: 10px; }
+
+.status-pill {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--surface2); border: 1px solid var(--border2);
+  border-radius: 99px; padding: 5px 12px;
+  font-size: 11px; color: var(--ink2);
+}
+.live-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent);
+  animation: breathe 2.5s ease-in-out infinite;
+}
+@keyframes breathe { 0%,100% { opacity:1; box-shadow: 0 0 6px var(--accent); } 50% { opacity:0.5; box-shadow: 0 0 2px var(--accent); } }
+
+.icon-btn {
+  width: 34px; height: 34px; border-radius: var(--radius-sm);
+  background: var(--surface2); border: 1px solid var(--border);
+  color: var(--ink2); display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 16px;
+  transition: all 0.15s;
+}
+.icon-btn:hover { background: var(--surface); border-color: var(--border2); color: var(--ink); }
+
+/* ── MAIN ── */
+.main {
+  padding: 2rem 2.5rem;
+  max-width: 1200px; margin: 0 auto; width: 100%;
+  animation: fadeUp 0.4s ease both;
+}
+@keyframes fadeUp { from { opacity:0; transform: translateY(12px); } to { opacity:1; transform: none; } }
+
+/* ── PAGE HEADER ── */
+.page-header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 2rem; gap: 1rem;
+}
+.page-heading {
+  font-family: var(--serif); font-size: 32px; font-weight: 300;
+  color: var(--ink); letter-spacing: -0.02em; line-height: 1.1;
+}
+.page-heading em { font-style: italic; color: var(--accent); }
+.page-date { font-size: 11px; color: var(--muted); letter-spacing: 0.06em; }
+
+/* ── CONNECTION BANNER ── */
+.conn-banner {
+  display: none; align-items: center; gap: 10px;
+  background: var(--golddim); border: 1px solid rgba(212,168,67,0.25);
+  border-radius: var(--radius-sm); padding: 12px 16px;
+  font-size: 12px; color: var(--gold); margin-bottom: 1.5rem;
+}
+.conn-banner.visible { display: flex; }
+
+/* ── ENDPOINT SECTION ── */
+.endpoint-section {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+}
+.endpoint-label {
+  font-size: 10px; color: var(--muted); text-transform: uppercase;
+  letter-spacing: 0.1em; white-space: nowrap; flex-shrink: 0;
+}
+.endpoint-input-row { display: flex; gap: 8px; flex: 1; min-width: 200px; }
+.endpoint-input {
+  flex: 1; background: var(--bg); border: 1px solid var(--border2);
+  border-radius: var(--radius-sm); padding: 8px 12px;
+  font-family: var(--mono); font-size: 12px; color: var(--ink);
+  outline: none; transition: border-color 0.15s;
+}
+.endpoint-input:focus { border-color: var(--accent); }
+.connect-btn {
+  padding: 8px 18px; background: var(--accent); color: #0d0f0b;
+  border: none; border-radius: var(--radius-sm);
+  font-family: var(--mono); font-size: 12px; font-weight: 500;
+  cursor: pointer; transition: all 0.15s; white-space: nowrap;
+}
+.connect-btn:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(168,201,122,0.3); }
+
+/* ── METRICS ── */
+.metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 1.5rem; }
+
+.metric {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.25rem 1.5rem;
+  position: relative; overflow: hidden;
+  cursor: default;
+}
+.metric::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, transparent, var(--metric-color, var(--accent)), transparent);
+  opacity: 1;
+}
+
+.metric-label {
+  font-size: 10px; color: var(--muted); text-transform: uppercase;
+  letter-spacing: 0.1em; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+}
+.metric-label i { font-size: 13px; color: var(--metric-color, var(--accent)); }
+.metric-value {
+  font-family: var(--serif); font-size: 36px; font-weight: 300;
+  color: var(--ink); line-height: 1; letter-spacing: -0.02em;
+}
+.metric-value.small { font-size: 20px; font-weight: 400; padding-top: 6px; }
+.metric-sub { font-size: 10px; color: var(--muted); margin-top: 6px; }
+
+.metric-total   { --metric-color: var(--accent); }
+.metric-today   { --metric-color: var(--blue); }
+.metric-week    { --metric-color: var(--gold); }
+.metric-top     { --metric-color: var(--purple); }
+
+/* ── TOOLBAR ── */
+.toolbar { display: flex; gap: 8px; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; }
+
+.search-wrap { position: relative; flex: 1; min-width: 220px; }
+.search-wrap i {
+  position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
+  color: var(--muted); font-size: 15px; pointer-events: none;
+}
+.search-wrap input {
+  width: 100%; padding: 9px 12px 9px 34px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); color: var(--ink);
+  font-family: var(--mono); font-size: 12px; outline: none;
+  transition: border-color 0.15s;
+}
+.search-wrap input:focus { border-color: var(--accent); background: var(--surface2); }
+.search-wrap input::placeholder { color: var(--muted); }
+
+.pills { display: flex; gap: 4px; flex-wrap: wrap; }
+.pill {
+  padding: 7px 13px; border-radius: 99px; font-size: 11px;
+  border: 1px solid var(--border); background: var(--surface);
+  color: var(--muted); cursor: pointer; transition: all 0.15s; white-space: nowrap;
+}
+.pill.active { background: var(--accent); color: #0d0f0b; border-color: var(--accent); font-weight: 500; }
+.pill:hover:not(.active) { border-color: var(--border2); color: var(--ink2); }
+
+.export-btn {
+  padding: 7px 14px; border-radius: var(--radius-sm); font-size: 11px;
+  border: 1px solid var(--border); background: var(--surface);
+  color: var(--ink2); cursor: pointer; display: flex; align-items: center; gap: 6px;
+  transition: all 0.15s; white-space: nowrap; font-family: var(--mono);
+}
+.export-btn:hover { border-color: var(--border2); color: var(--ink); background: var(--surface2); }
+
+/* ── TABLE CARD ── */
+.table-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+}
+
+.table-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 20px; border-bottom: 1px solid var(--border);
+  background: var(--surface2);
+}
+.table-header-left { display: flex; align-items: center; gap: 10px; }
+.table-title { font-family: var(--serif); font-size: 14px; font-weight: 400; color: var(--ink); }
+.count-tag {
+  background: var(--accentdim); color: var(--accent);
+  border: 1px solid rgba(168,201,122,0.2);
+  border-radius: 99px; font-size: 10px; padding: 2px 9px;
+  letter-spacing: 0.05em;
+}
+
+/* ── TABLE ── */
+.table-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; table-layout: fixed; min-width: 700px; }
+
+col.c-id     { width: 88px; }
+col.c-name   { width: 160px; }
+col.c-svc    { width: 180px; }
+col.c-date   { width: 110px; }
+col.c-time   { width: 66px; }
+col.c-reason { width: auto; }
+col.c-status { width: 110px; }
+col.c-act    { width: 42px; }
+
+thead th {
+  padding: 9px 16px; text-align: left;
+  font-size: 9px; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.1em;
+  border-bottom: 1px solid var(--border);
+  font-weight: 500; white-space: nowrap;
+  background: var(--surface2);
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.1s;
+  animation: rowIn 0.3s ease both;
+}
+@keyframes rowIn { from { opacity:0; } to { opacity:1; } }
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: rgba(255,255,255,0.025); }
+
+td { padding: 11px 16px; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* cells */
+.id-chip {
+  font-size: 10px; background: var(--bg);
+  border: 1px solid var(--border2); border-radius: 6px;
+  padding: 3px 7px; color: var(--muted); display: inline-block;
+  letter-spacing: 0.04em;
+}
+
+.citizen-name { font-weight: 500; color: var(--ink); font-family: var(--serif); font-size: 13px; }
+
+.svc-tag {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 11px; color: var(--ink2);
+}
+.svc-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+.date-val { font-size: 12px; color: var(--ink); }
+.time-val { font-size: 12px; color: var(--muted); }
+.reason-val { font-size: 11px; color: var(--muted); }
+
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: 99px;
+  font-size: 10px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase;
+}
+.badge-conf { background: var(--accentdim); color: var(--accent); border: 1px solid rgba(168,201,122,0.2); }
+.badge-canc { background: var(--dangerdim); color: var(--danger); border: 1px solid rgba(224,112,112,0.2); }
+
+.del-btn {
+  background: none; border: none; cursor: pointer; color: var(--muted);
+  width: 28px; height: 28px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s; font-size: 15px;
+}
+.del-btn:hover { background: var(--dangerdim); color: var(--danger); }
+
+/* ── EMPTY STATE ── */
+.empty-state {
+  padding: 4rem 2rem; text-align: center; color: var(--muted);
+}
+.empty-icon { font-size: 40px; margin-bottom: 12px; opacity: 0.2; }
+.empty-text { font-size: 13px; }
+.empty-sub { font-size: 11px; margin-top: 6px; opacity: 0.6; }
+
+/* ── TOAST ── */
+#toast {
+  position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(16px);
+  background: var(--surface2); border: 1px solid var(--border2);
+  color: var(--ink); padding: 10px 20px;
+  border-radius: 99px; font-size: 12px;
+  opacity: 0; transition: all 0.25s; pointer-events: none; z-index: 999;
+  white-space: nowrap; box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  display: flex; align-items: center; gap: 8px;
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+#toast.ok i { color: var(--accent); }
+#toast.err i { color: var(--danger); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .main { padding: 1.5rem; }
+  .metrics { grid-template-columns: repeat(2, 1fr); }
+  .page-header { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 600px) {
+  .header { padding: 0 1rem; }
+  .main { padding: 1rem; }
+  .endpoint-section { flex-direction: column; align-items: flex-start; }
+  .metrics { grid-template-columns: 1fr 1fr; gap: 8px; }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-left">
+      <div class="logo">C</div>
+      <div class="header-wordmark">
+        <div class="header-title">Comune di Codroipo</div>
+        <div class="header-sub">Voicebot Admin</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="status-pill">
+        <div class="live-dot"></div>
+        <span>auto-refresh 30s</span>
+      </div>
+      <button class="icon-btn" onclick="load()" title="Aggiorna"><i class="fa-solid fa-rotate-right"></i></button>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- Page heading -->
+    <div class="page-header">
+      <div>
+        <h1 class="page-heading">Prenotazioni <em>attive</em></h1>
+        <div class="page-date" id="page-date"></div>
+      </div>
+    </div>
+
+    <!-- Connection banner -->
+    <div class="conn-banner" id="conn-banner">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      <span>Backend non raggiungibile — verifica che il server sia in esecuzione sulla porta configurata.</span>
+    </div>
+
+    <!-- Endpoint config -->
+    <div class="endpoint-section">
+      <div class="endpoint-label">Endpoint backend</div>
+      <div class="endpoint-input-row">
+        <input class="endpoint-input" id="api-input" value="http://localhost:3000" placeholder="https://xxxx.ngrok-free.app" />
+        <button class="connect-btn" onclick="applyBase()">Connetti</button>
+      </div>
+    </div>
+
+    <!-- Metrics -->
+    <div class="metrics">
+      <div class="metric metric-total">
+        <div class="metric-label"><i class="fa-solid fa-calendar"></i>Totale</div>
+        <div class="metric-value" id="m-total">—</div>
+        <div class="metric-sub">appuntamenti registrati</div>
+      </div>
+      <div class="metric metric-today">
+        <div class="metric-label"><i class="fa-solid fa-calendar-day"></i>Oggi</div>
+        <div class="metric-value" id="m-today">—</div>
+        <div class="metric-sub" id="m-today-sub"></div>
+      </div>
+      <div class="metric metric-week">
+        <div class="metric-label"><i class="fa-solid fa-calendar-week"></i>Questa settimana</div>
+        <div class="metric-value" id="m-week">—</div>
+        <div class="metric-sub">ultimi 7 giorni</div>
+      </div>
+      <div class="metric metric-top">
+        <div class="metric-label"><i class="fa-solid fa-star"></i>Servizio top</div>
+        <div class="metric-value small" id="m-top">—</div>
+        <div class="metric-sub" id="m-top-sub"></div>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="search-wrap">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input id="search" type="text" placeholder="Cerca per nome, ID, servizio…" oninput="render()" />
+      </div>
+      <div class="pills" id="svc-pills">
+        <div class="pill active" data-svc="" onclick="setSvc(this)">Tutti</div>
+        <div class="pill" data-svc="Anagrafe" onclick="setSvc(this)">Anagrafe</div>
+        <div class="pill" data-svc="Tributi" onclick="setSvc(this)">Tributi</div>
+        <div class="pill" data-svc="Edilizia e Urbanistica" onclick="setSvc(this)">Edilizia</div>
+        <div class="pill" data-svc="Servizi Sociali" onclick="setSvc(this)">Sociali</div>
+        <div class="pill" data-svc="Ufficio Tecnico" onclick="setSvc(this)">Tecnico</div>
+        <div class="pill" data-svc="Protocollo" onclick="setSvc(this)">Protocollo</div>
+      </div>
+      <button class="export-btn" onclick="exportCSV()">
+        <i class="fa-solid fa-download" style="font-size:14px"></i> Esporta CSV
+      </button>
+    </div>
+
+    <!-- Table card -->
+    <div class="table-card">
+      <div class="table-header">
+        <div class="table-header-left">
+          <span class="table-title">Appuntamenti</span>
+          <span class="count-tag" id="visible-count">0 risultati</span>
+        </div>
+      </div>
+      <div class="table-scroll">
+        <div id="table-container"></div>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /shell -->
+
+<div id="toast"><i class="fa-solid fa-check"></i><span id="toast-msg"></span></div>
+
+<script>
+const SVC = {
+  'Anagrafe':             { color: '#7ab0d4', dim: 'var(--bluedim)' },
+  'Tributi':              { color: '#d4935a', dim: 'var(--orangedim)' },
+  'Edilizia e Urbanistica':{ color: '#a07ad4', dim: 'var(--purpledim)' },
+  'Servizi Sociali':      { color: '#5ac4a8', dim: 'var(--tealdim)' },
+  'Ufficio Tecnico':      { color: '#d4a843', dim: 'var(--golddim)' },
+  'Protocollo':           { color: '#a8c97a', dim: 'var(--accentdim)' },
+};
+
+let API_BASE = 'http://localhost:3000';
+let all = [];
+let activeSvc = '';
+
+// Set page date
+const now = new Date();
+document.getElementById('page-date').textContent =
+  now.toLocaleDateString('it-IT', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+
+function applyBase() {
+  API_BASE = document.getElementById('api-input').value.trim().replace(/\/$/, '');
+  load();
+}
+
+async function load() {
+  try {
+    const r = await fetch(`${API_BASE}/appuntamenti`);
+    const d = await r.json();
+    all = d.appointments || [];
+    document.getElementById('conn-banner').classList.remove('visible');
+    updateMetrics();
+    render();
+  } catch {
+    document.getElementById('conn-banner').classList.add('visible');
+    all = [];
+    updateMetrics();
+    render();
+  }
+}
+
+function setSvc(el) {
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  activeSvc = el.dataset.svc;
+  render();
+}
+
+function filtered() {
+  const q = document.getElementById('search').value.toLowerCase();
+  return all.filter(a => {
+    const txt = !q || [a.id, a.nome, a.cognome, a.servizio, a.motivo||''].join(' ').toLowerCase().includes(q);
+    const svc = !activeSvc || a.servizio === activeSvc;
+    return txt && svc;
+  });
+}
+
+function updateMetrics() {
+  const today = new Date().toISOString().slice(0,10);
+  const weekAgo = new Date(Date.now() - 7*86400000).toISOString().slice(0,10);
+  const todayCount = all.filter(a => a.data === today).length;
+  const weekCount = all.filter(a => a.data >= weekAgo).length;
+
+  document.getElementById('m-total').textContent = all.length;
+  document.getElementById('m-today').textContent = todayCount;
+  document.getElementById('m-today-sub').textContent = todayCount === 1 ? 'appuntamento oggi' : 'appuntamenti oggi';
+  document.getElementById('m-week').textContent = weekCount;
+
+  const freq = {};
+  all.forEach(a => freq[a.servizio] = (freq[a.servizio]||0)+1);
+  const top = Object.entries(freq).sort((a,b) => b[1]-a[1])[0];
+  if (top) {
+    document.getElementById('m-top').textContent = top[0].split(' ')[0];
+    document.getElementById('m-top-sub').textContent = `${top[1]} prenotazion${top[1]===1?'e':'i'}`;
+  } else {
+    document.getElementById('m-top').textContent = '—';
+    document.getElementById('m-top-sub').textContent = '';
+  }
+}
+
+function fmtDate(d) {
+  if (!d) return '—';
+  const [y,m,day] = d.split('-');
+  const mo = ['','gen','feb','mar','apr','mag','giu','lug','ago','set','ott','nov','dic'];
+  return `${parseInt(day)} ${mo[parseInt(m)]} ${y}`;
+}
+
+function render() {
+  const list = filtered();
+  const countEl = document.getElementById('visible-count');
+  countEl.textContent = `${list.length} risultat${list.length===1?'o':'i'}`;
+
+  if (!list.length) {
+    document.getElementById('table-container').innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon"><i class="fa-solid fa-calendar-xmark"></i></div>
+        <div class="empty-text">Nessun appuntamento trovato</div>
+        <div class="empty-sub">Prova a modificare i filtri o la ricerca</div>
+      </div>`;
+    return;
+  }
+
+  const rows = list.map((a, i) => {
+    const svc = SVC[a.servizio] || { color: '#888', dim: 'rgba(136,136,136,0.1)' };
+    const statusCls = a.stato === 'confermato' ? 'badge-conf' : 'badge-canc';
+    const statusIcon = a.stato === 'confermato' ? 'fa-solid fa-circle-check' : 'fa-solid fa-circle-xmark';
+    return `<tr style="animation-delay:${i*0.03}s">
+      <td><span class="id-chip">${a.id}</span></td>
+      <td><span class="citizen-name">${a.nome} ${a.cognome}</span></td>
+      <td>
+        <span class="svc-tag">
+          <span class="svc-dot" style="background:${svc.color}; box-shadow:0 0 5px ${svc.color}66"></span>
+          ${a.servizio}
+        </span>
+      </td>
+      <td class="date-val">${fmtDate(a.data)}</td>
+      <td class="time-val">${a.ora||'—'}</td>
+      <td class="reason-val" title="${a.motivo||''}">${a.motivo||'—'}</td>
+      <td><span class="badge ${statusCls}"><i class="${statusIcon}" style="font-size:11px"></i> ${a.stato}</span></td>
+      <td>
+        <button class="del-btn" onclick="del('${a.id}')" title="Elimina appuntamento">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('table-container').innerHTML = `
+    <table>
+      <colgroup>
+        <col class="c-id"><col class="c-name"><col class="c-svc">
+        <col class="c-date"><col class="c-time"><col class="c-reason">
+        <col class="c-status"><col class="c-act">
+      </colgroup>
+      <thead>
+        <tr>
+          <th>ID</th><th>Cittadino</th><th>Servizio</th>
+          <th>Data</th><th>Ora</th><th>Motivo</th><th>Stato</th><th></th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
+
+async function del(id) {
+  if (!confirm(`Eliminare l'appuntamento ${id}?`)) return;
+  try {
+    await fetch(`${API_BASE}/appuntamenti/${id}`, { method: 'DELETE' });
+    toast('Appuntamento eliminato', true);
+    load();
+  } catch {
+    toast('Errore nella cancellazione', false);
+  }
+}
+
+function exportCSV() {
+  const list = filtered();
+  if (!list.length) { toast('Nessun dato da esportare', false); return; }
+  const h = 'ID,Nome,Cognome,Servizio,Data,Ora,Motivo,Stato';
+  const rows = list.map(a =>
+    [a.id,a.nome,a.cognome,a.servizio,a.data,a.ora,a.motivo||'',a.stato]
+    .map(v => `"${String(v||'').replace(/"/g,'""')}"`)
+    .join(',')
+  );
+  const blob = new Blob([[h,...rows].join('\n')], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  Object.assign(document.createElement('a'), { href: url, download: 'appuntamenti.csv' }).click();
+  URL.revokeObjectURL(url);
+  toast('CSV esportato', true);
+}
+
+function toast(msg, ok = true) {
+  const el = document.getElementById('toast');
+  const icon = el.querySelector('i');
+  document.getElementById('toast-msg').textContent = msg;
+  el.className = ok ? 'show ok' : 'show err';
+  icon.className = ok ? 'fa-solid fa-check' : 'fa-solid fa-xmark';
+  setTimeout(() => { el.className = ok ? 'ok' : 'err'; }, 2800);
+}
+
+load();
+setInterval(load, 30000);
+</script>
+</body>
+</html>
