@@ -80,7 +80,7 @@ The admin dashboard is served at `http://localhost:3000` (same port as the API).
 
 ---
 
-## Quick start — Docker Compose (recommended)
+## Quick start — Docker Compose
 
 ```bash
 # 1. Configure environment
